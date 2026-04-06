@@ -2,13 +2,22 @@
 
 import { useQuery } from "convex/react";
 
-import {api} from "../../convex/_generated/api";
+import { api } from "../../convex/_generated/api";
 
 export default function Home() {
-    const tasks = useQuery(api.tasks.get);
-  return (
-      <main className="flex min-h-screen flex-col items-center justify-between p-24 font-mono">
-      {tasks?.map(({ _id, text }) => <div key={_id}>{text}</div>)}
-    </main>
-  );
+
+    const projects = useQuery(api.projects.get);
+    if (!projects) return;
+    return (
+        <main className="absolute top-20 w-full flex flex-col gap-2 p-4">
+            {/*one unit of top is 0.5rem */}
+            {projects.map((project) => (
+                <div className="border rounded p-2 flex flex-col">
+                    <p>Owner Id: {`${project.name}`}</p>
+                    <p>Name: {`${project.ownerId}`}</p>
+                    <p>Import Status: {`${project.importStatus}`}</p>
+                </div>
+            ))}
+        </main>
+    );
 }
