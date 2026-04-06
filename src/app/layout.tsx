@@ -2,9 +2,10 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono, Quantico } from "next/font/google";
 import "./globals.css";
 import { ClerkProvider, SignInButton, SignUpButton, UserButton, Show } from "@clerk/nextjs";
+import { ConvexClientProvider } from "./ConvexProvider";
 
 const quantico = Quantico({
-    weight: ["400","700"],
+    weight: ["400", "700"],
     variable: "--font-quantico",
     subsets: ["latin"]
 })
@@ -21,7 +22,8 @@ export default function RootLayout({
 }>) {
     return (
         <html lang="en" className={`${quantico.variable} h-full antialiased`}>
-            <body className="min-h-full flex flex-col">{children}
+            <body className="min-h-full flex flex-col">
+                <ConvexClientProvider>{children}</ConvexClientProvider>                
                 <ClerkProvider>
                     <header className="absolute top-0 left-0 flex justify-start items-center p-4 gap-4 h-16">
                         <Show when="signed-out">
