@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
 import { Quantico, Geist } from "next/font/google";
 import "./globals.css";
-import { ClerkProvider, SignInButton, SignUpButton, UserButton, Show } from "@clerk/nextjs";
-import { ConvexClientProvider } from "./convex-client-provider";
+import { SignInButton, SignUpButton, UserButton, Show } from "@clerk/nextjs";
+import { Providers } from "@/components/providers";
 import { cn } from "@/lib/utils";
+import { ThemeProvider } from "@/components/theme-provider";
 
-const geist = Geist({subsets:['latin'],variable:'--font-sans'});
 
 const quantico = Quantico({
     weight: ["400", "700"],
@@ -24,24 +24,9 @@ export default function RootLayout({
     children: React.ReactNode;
 }>) {
     return (
-        <html lang="en" className={cn("h-full", "antialiased", quantico.variable, "font-sans", geist.variable)}>
+        <html lang="en" suppressHydrationWarning className={cn("h-full", "antialiased", quantico.variable)}>
             <body className="min-h-full flex flex-col">
-                <ConvexClientProvider>{children}</ConvexClientProvider>
-                <ClerkProvider>
-                    <header className="absolute top-0 left-0 flex justify-start items-center p-4 gap-4 h-16">
-                        <Show when="signed-out">
-                            <SignInButton />
-                            <SignUpButton>
-                                <button className="bg-green-300 text-blue-700 rounded-full font-bold">
-                                    Sign Up
-                                </button>
-                            </SignUpButton>
-                        </Show>
-                        <Show when="signed-in">
-                            <UserButton />
-                        </Show>
-                    </header>
-                </ClerkProvider>
+                <Providers>{children}</Providers>
             </body>
         </html >
     );

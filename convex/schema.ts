@@ -16,5 +16,6 @@ export default defineSchema({ //the schema here, which is a collection of relati
                 v.literal("failed")
             ),
         ),
-    }),
+    })
+    .index("by_owner", ["ownerId"]),
 })
