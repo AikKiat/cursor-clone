@@ -1,11 +1,8 @@
 import type { Metadata } from "next";
-import { Quantico, Geist } from "next/font/google";
+import { Quantico } from "next/font/google";
 import "./globals.css";
-import { SignInButton, SignUpButton, UserButton, Show } from "@clerk/nextjs";
 import { Providers } from "@/components/providers";
 import { cn } from "@/lib/utils";
-import { ThemeProvider } from "@/components/theme-provider";
-
 
 const quantico = Quantico({
     weight: ["400", "700"],
