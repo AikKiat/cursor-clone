@@ -1,8 +1,10 @@
-import type { Metadata } from "next";
-import { Quantico } from "next/font/google";
+import Metadata from "next";
+import { Quantico, Geist } from "next/font/google";
 import "./globals.css";
 import { Providers } from "@/components/providers";
 import { cn } from "@/lib/utils";
+
+const geist = Geist({subsets:['latin'],variable:'--font-sans'});
 
 const quantico = Quantico({
     weight: ["400", "700"],
@@ -21,7 +23,7 @@ export default function RootLayout({
     children: React.ReactNode;
 }>) {
     return (
-        <html lang="en" suppressHydrationWarning className={cn("h-full", "antialiased", quantico.variable)}>
+        <html lang="en" suppressHydrationWarning className={cn("h-full", "antialiased", quantico.variable, "font-sans", geist.variable)}>
             <body className="min-h-full flex flex-col">
                 <Providers>{children}</Providers>
             </body>
