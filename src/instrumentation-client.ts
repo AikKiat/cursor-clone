@@ -4,35 +4,28 @@
 
 import * as Sentry from "@sentry/nextjs";
 
-// if (process.env.NODE_ENV === 'production') {
 Sentry.init({
-    dsn: process.env.SENTRY_DSN,
-    // Add optional integrations for additional features
-    integrations: [Sentry.replayIntegration()],
+  dsn: "https://031fcbe69969d3e4da4013d1dc3d789b@o4511183953395712.ingest.us.sentry.io/4511183972990976",
 
-    // Define how likely traces are sampled. Adjust this value in production, or use tracesSampler for greater control.
-    tracesSampleRate: 1,
-    enabled: true,
-    enableLogs: true,
-    // Enable logs to be sent to Sentry
-    // enableLogs: process.env.NODE_ENV === 'production' ? true : false,
-    //
-    // enabled: process.env.NODE_ENV === 'production' ? true : false,
-    //
-    // Define how likely Replay events are sampled.
-    // This sets the sample rate to be 10%. You may want this to be 100% while
-    // in development and sample at a lower rate in production
-    replaysSessionSampleRate: 0.1,
+  // Add optional integrations for additional features
+  integrations: [Sentry.replayIntegration()],
 
-    // Define how likely Replay events are sampled when an error occurs.
-    replaysOnErrorSampleRate: 1.0,
+  // Define how likely traces are sampled. Adjust this value in production, or use tracesSampler for greater control.
+  tracesSampleRate: 1,
+  // Enable logs to be sent to Sentry
+  enableLogs: true,
 
-    // Enable sending user PII (Personally Identifiable Information)
-    // https://docs.sentry.io/platforms/javascript/guides/nextjs/configuration/options/#sendDefaultPii
-    sendDefaultPii: true,
+  // Define how likely Replay events are sampled.
+  // This sets the sample rate to be 10%. You may want this to be 100% while
+  // in development and sample at a lower rate in production
+  replaysSessionSampleRate: 0.1,
+
+  // Define how likely Replay events are sampled when an error occurs.
+  replaysOnErrorSampleRate: 1.0,
+
+  // Enable sending user PII (Personally Identifiable Information)
+  // https://docs.sentry.io/platforms/javascript/guides/nextjs/configuration/options/#sendDefaultPii
+  sendDefaultPii: true,
 });
-// }
-
-// export const onRouterTransitionStart = process.env.NODE_ENV === 'production'? Sentry.captureRouterTransitionStart : undefined;
 
 export const onRouterTransitionStart = Sentry.captureRouterTransitionStart;
