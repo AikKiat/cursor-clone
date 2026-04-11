@@ -69,23 +69,23 @@ export const ProjectsCommandDialogue = ({
             title="Search Projects"
             description="Search and Navifate to projects"
         >
-            {/* <CommandInput placeholder="Search projects..." /> */}
+            <CommandInput placeholder="Search projects..." />
             <CommandList>
                 <CommandEmpty>No projects found</CommandEmpty>
-                {/* <CommandGroup heading="Projects"> */}
-                {/*     {projects?.map((project) => { */}
-                {/*         return ( */}
-                {/*             <CommandItem */}
-                {/*                 key={project._id} */}
-                {/*                 value={`${project.name}-${project._id}`} */}
-                {/*                 onSelect={() => handleSelect(project._id)} */}
-                {/*             > */}
-                {/*                 {getProjectIcon(project)} */}
-                {/*                 <span>{project.name}</span> */}
-                {/*             </CommandItem> */}
-                {/*         ) */}
-                {/*     })} */}
-                {/* </CommandGroup> */}
+                <CommandGroup heading="Projects">
+                    {projects?.map((project) => {
+                        return (
+                            <CommandItem
+                                key={project._id}
+                                value={`${project.name}-${project._id}`}
+                                onSelect={() => handleSelect(project._id)}
+                            >
+                                {getProjectIcon(project)}
+                                <span>{project.name}</span>
+                            </CommandItem>
+                        )
+                    })}
+                </CommandGroup>
             </CommandList>
         </CommandDialog>
     )

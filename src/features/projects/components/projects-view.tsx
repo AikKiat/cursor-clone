@@ -12,6 +12,7 @@ import { useCreateProject } from "../hooks/use-projects";
 import { uniqueNamesGenerator, adjectives, colors, animals } from 'unique-names-generator';
 import { useState } from "react";
 import { ProjectsCommandDialogue } from "./projects-command-dialogue";
+import { GiMagnifyingGlass } from "react-icons/gi";
 
 //We import the Poppins font and destructure the type to
 //reassign the attributes of subsets and weight
@@ -53,6 +54,7 @@ export default function ProjectsView() {
                     </div>
                     <div className="flex flex-col gap-4 w-full">
                         <Button
+                            className="rounded-none w-full m-1 self-center"
                             variant="outline"
                             onClick={() => {
                                 const projectName = uniqueNamesGenerator({
@@ -65,39 +67,31 @@ export default function ProjectsView() {
                         >
                             Create Project
                         </Button>
-                        <Button className="flex flex-col gap-4 w-1/3" onClick={() => setCommandDialogueOpen(true)}>
-                            <span className="text-sm">Projects Search</span>
-                        </Button>
 
-                        <div className="flex flex-row w-full items justify-center">
-                            {/* <Button variant="outline" */}
-                            {/*     onClick={() => { }} */}
-                            {/*     className="h-full items-start justify-start p-4 bg-background */}
-                            {/* border flex flex-col gap-6 rounded-none"> */}
-                            {/*     <div className="flex items-center justify-between w-full"> */}
-                            {/*         <SparkleIcon className="size-4" /> */}
-                            {/*         <Kbd className="bg-accent border"> */}
-                            {/*             CTRL+J */}
-                            {/*         </Kbd> */}
-                            {/*         <div> */}
-                            {/*             <span className="text-sm">New</span> */}
-                            {/*         </div> */}
-                            {/*     </div> */}
-                            {/* </Button> */}
-                            <Button variant="outline"
-                                onClick={() => { }}
-                                className="h-full items-start p-4 bg-background
-                        border flex flex-col gap-6 rounded-none w-1/2">
-                                <div className="flex items-center justify-between w-full">
-                                    <FaGithub className="size-4" />
-                                    <Kbd className="bg-accent border">
-                                        CTRL+I
-                                    </Kbd>
-                                    <div>
+                        <div className="flex flex-row w-full items justify-center items-center h-12">
+                            <div className="flex flex-row w-1/2 h-full mr-1">
+                                <Button className="flex flex-row w-full h-full bg-accent border items-center justify-center rounded-none p-2" variant="outline" onClick={() => setCommandDialogueOpen(true)}>
+                                    <div className="flex flex-row w-full h-full gap-4 items-center justify-center pt-2 pb-2">
+                                        <GiMagnifyingGlass className="size-4 w-fit" />
+                                        <span className="text-sm">Projects Search</span>
+
+                                    </div>
+                                </Button>
+
+                            </div>
+                            <div className="flex flex-row w-1/2 h-full ml-1">
+                                <Button variant="outline"
+                                    onClick={() => { }}
+                                    className="bg-background w-full h-full rounded-none">
+                                    <div className="flex items-center justify-between w-full h-full">
+                                        <FaGithub className="size-4" />
+                                        <Kbd className="bg-accent border">
+                                            CTRL+I
+                                        </Kbd>
                                         <span className="text-sm">Import</span>
                                     </div>
-                                </div>
-                            </Button>
+                                </Button>
+                            </div>
                         </div>
                         <ProjectsList onViewAll={setViewAll}></ProjectsList>
                         {viewAll === false ? <span className="text-sm flex justify-center">Ongoing Projects</span> :
