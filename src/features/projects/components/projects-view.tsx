@@ -13,6 +13,8 @@ import { uniqueNamesGenerator, adjectives, colors, animals } from 'unique-names-
 import { useState } from "react";
 import { ProjectsCommandDialogue } from "./projects-command-dialogue";
 import { GiMagnifyingGlass } from "react-icons/gi";
+import mainLogo from "@/../public/coding_2.svg";
+import Image from "next/image";
 
 //We import the Poppins font and destructure the type to
 //reassign the attributes of subsets and weight
@@ -43,7 +45,7 @@ export default function ProjectsView() {
                 <div className="w-full max-w-sm mx-auto flex flex-col gap-4 items-center">
                     <div className="flex justify-between gap-4 w-full items-center">
                         <div className="flex items-center gap-2 w-full group/logo">
-                            <img src="/vercel.svg" alt="cursor-clone" className="size-[32px] md:size-[46px]" />
+                            <Image src={mainLogo} alt="cursor-clone" className="w-[5rem] h-[5rem]" />
                             <h1 className={cn(
                                 "text-4xl md:text-5xl font-semibold",
                                 font.className

@@ -1,4 +1,4 @@
-import Metadata from "next";
+import {Metadata} from "next";
 import { Quantico, Geist } from "next/font/google";
 import "./globals.css";
 import { Providers } from "@/components/providers";
