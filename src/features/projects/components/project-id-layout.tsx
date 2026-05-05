@@ -44,7 +44,6 @@ export const ProjectIdLayout = ({
                             Conversation sidebar
                         </div>
                     </Allotment.Pane>
-
                 </Allotment>
             </div>
         </div>
