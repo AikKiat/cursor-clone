@@ -1,7 +1,7 @@
 import { v } from "convex/values";
 import { mutation, query } from "./_generated/server";
 import { verifyAuthentication } from "./auth";
-import { Id } from "./_generated/dataModel";
+import { Doc, Id } from "./_generated/dataModel";
 
 
 
@@ -45,17 +45,18 @@ export const getFile = query({
         const file = await ctx.db.get("files", args.fileId);
 
         if (!file) {
-            throw new Error("[CONVEX CLIENT QUERY FILE] File is not found");
+            console.log(("[CONVEX CLIENT GET FILE] File is not found. Has it been deleted? Safe to return if file has been deleted in file explorer, resulting in null reference old links following React state refresh."));
+            return;
         }
 
         const project = await ctx.db.get("projects", file.projectId); //get the project this file is based on.
 
         if (!project) {
-            throw new Error("[CONVEX CLIENT QUERY FILE] Project is not found");
+            throw new Error("[CONVEX CLIENT GET FILE] Project is not found");
         }
 
         if (project.ownerId !== verifiedIdentity.subject) {
-            throw new Error("[CONVEX CLIENT QUERY FILE] Unauthorised user to access this project.");
+            throw new Error("[CONVEX CLIENT GET FILE] Unauthorised user to access this project.");
         }
 
         return file; //return back the file object
@@ -284,10 +285,10 @@ export const deleteFile = mutation({
         //When delete, must recursively delete!
         //Use DFS to find the lowest fiile inside.
 
-        let deletionQueue: {id: Id<"files">, name: string}[] = [{name: file.name, id: args.id}];
+        let deletionQueue: { id: Id<"files">, name: string }[] = [{ name: file.name, id: args.id }];
 
 
-        const deleteRecursive = async (deletionQueue: {id: Id<"files">, name: string}[]) => {
+        const deleteRecursive = async (deletionQueue: { id: Id<"files">, name: string }[]) => {
 
             while (deletionQueue.length > 0) {
 
@@ -310,10 +311,10 @@ export const deleteFile = mutation({
                         .query("files")
                         .withIndex("by_project_parent",
                             (q) => q.eq("projectId", item.projectId).eq("parentId", first.id))
-                        .collect()); 
+                        .collect());
                     for (let i = 0; i < children.length; i++) { //thats ehy we index by 1 here cus the first element is the original parent
-                        if (!deletionQueue.includes({id: first.id, name: first.name})) {
-                            deletionQueue.push({id:children[i]._id, name: children[i].name});
+                        if (!deletionQueue.includes({ id: first.id, name: first.name })) {
+                            deletionQueue.push({ id: children[i]._id, name: children[i].name });
                         }
                     }
                 }
@@ -371,3 +372,52 @@ export const updateFile = mutation({
         });
     }
 })
+
+
+
+export const getFilePath = query({
+
+    args: {
+        id: v.id("files")
+    },
+    handler: async (ctx, args) => {
+
+        const verifiedIdentity = await verifyAuthentication(ctx);
+
+        const file = await ctx.db.get("files", args.id);
+
+        if (!file) {
+            console.log(`[CONVEX CLIENT QUERY FILE PATH FUNCTION] File of id ${args.id} not found. Has it been deleted? Safe to return if file has been deleted in file explorer, resulting in null reference old links following React state refresh.`);
+            return;
+        }
+
+        const project = await ctx.db.get("projects", file.projectId);
+
+        if (!project) {
+            throw new Error("[CONVEX CLIENT QUERY FOLDER CONTENTS] Project is not found");
+        }
+
+        if (project.ownerId !== verifiedIdentity.subject) {
+            throw new Error("[CONVEX CLIENT QUERY FOLDER CONTENTS] Unauthorised user to access this project.");
+        }
+
+        const path: { _id: string, name: string }[] = [];
+
+        let currentId: Id<"files"> | undefined = args.id;
+
+        while (currentId) {
+            const file = (await ctx.db.get("files", currentId)) as
+                | Doc<"files">
+                | undefined;
+            if (!file) break;
+
+            path.unshift({ _id: file._id, name: file.name }) //unshift means add to the beginning of the array. 
+                //Opposite of shift(), which REMOVES (pops) from the from. Queue mechanism
+            currentId = file.parentId
+        }
+
+        return path;
+
+    },
+});
+

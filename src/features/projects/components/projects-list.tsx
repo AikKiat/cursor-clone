@@ -12,7 +12,7 @@ import { Button } from "@/components/ui/button";
 import { useState } from "react";
 
 interface ProjectsListProps {
-    onViewAll: (bool : boolean) => void;
+    onViewAll: (bool: boolean) => void;
 }
 
 const formatTimeStamp = (timeStamp: number) => {
@@ -60,7 +60,7 @@ const ProjectItem = ({ data }: { data: Doc<"projects"> }) => {
     )
 }
 
-const ContinueLatestCard = ({data}: { data: Doc<"projects"> }) => {
+const ContinueLatestCard = ({ data }: { data: Doc<"projects"> }) => {
     return (
         <div className="flex flex-col gap-2">
             <span className="text-xs text-muted-foreground">Last Updated</span>
@@ -81,10 +81,10 @@ const ContinueLatestCard = ({data}: { data: Doc<"projects"> }) => {
     )
 }
 
-export default function ProjectsList({onViewAll}: ProjectsListProps) {
+export default function ProjectsList({ onViewAll }: ProjectsListProps) {
 
-    const projects = useProjectsPartial(6);
-   
+    const projects = useProjectsPartial(20);
+
     const [viewAll, setViewAll] = useState<boolean>(false);
 
     if (projects == undefined) {
@@ -95,7 +95,7 @@ export default function ProjectsList({onViewAll}: ProjectsListProps) {
 
     return (
         <div className=" flex flex-col gap-4">
-        { mostRecent && <ContinueLatestCard data={mostRecent}/>}
+            {mostRecent && <ContinueLatestCard data={mostRecent} />}
             {rest.length > 0 && rest.reverse() && (
                 <div className="flex flex-col gap-2">
                     <div className="flex items-center justify-between gap-2">
@@ -104,25 +104,30 @@ export default function ProjectsList({onViewAll}: ProjectsListProps) {
                         </span>
                         <button className="flex items-center gap-2 text-muted-foreground
                         text-xs hover:text-foreground transition-colors"
-                        onClick={ ()=>{
-                            setViewAll(viewAll => !viewAll);
-                            onViewAll(viewAll); 
+                            onClick={() => {
+                                setViewAll(viewAll => !viewAll);
+                                onViewAll(viewAll);
                             }}>
-                            {viewAll === false? <span>View All</span>: <span>Collapse All</span>}
+                            {viewAll === false ? <span>View All</span> : <span>Collapse All</span>}
                             <Kbd className="bg-accent border">
-                                CTRL K
+                                SHIFT K
                             </Kbd>
                         </button>
                     </div>
-                    <ul>
-                        {viewAll && rest.map((project) => {
-                            return (
-                                <ProjectItem
-                                    key={project._id}
-                                    data={project} />
-                            )
-                        })}
-                    </ul>
+                    {viewAll && <div className="w-full h-40 overflow-y-scroll overflow-x-hidden
+                    [&::-webkit-scrollbar]:w-1 [&::-webkit-scrollbar-track]:bg-black
+                    [&::-webkit-scrollbar-thumb]:bg-gray-800">
+                        <ul>
+                            {viewAll && rest.map((project) => {
+                                return (
+                                    <ProjectItem
+                                        key={project._id}
+                                        data={project} />
+                                )
+                            })}
+                        </ul>
+
+                    </div>}
                 </div>
             )}
         </div>
