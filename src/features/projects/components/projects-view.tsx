@@ -88,7 +88,7 @@ export default function ProjectsView() {
                                     <div className="flex items-center justify-between w-full h-full">
                                         <FaGithub className="size-4" />
                                         <Kbd className="bg-accent border">
-                                            CTRL+I
+                                            SHIFT I
                                         </Kbd>
                                         <span className="text-sm">Import</span>
                                     </div>
@@ -96,8 +96,8 @@ export default function ProjectsView() {
                             </div>
                         </div>
                         <ProjectsList onViewAll={setViewAll}></ProjectsList>
-                        {viewAll === false ? <span className="text-sm flex justify-center">Ongoing Projects</span> :
-                            <span className="text-sm flex justify-center">Click View All for projects</span>}
+                        {viewAll === false ? <span className="text-sm flex justify-center">Latest Projects</span> :
+                            <span className="text-sm flex justify-center">Click View All for Latest Projects</span>}
                     </div>
                 </div>
             </div>

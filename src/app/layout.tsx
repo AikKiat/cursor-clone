@@ -1,16 +1,27 @@
-import {Metadata} from "next";
-import { Quantico, Geist } from "next/font/google";
+import { Metadata } from "next";
+import { Quantico, Geist, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { Providers } from "@/components/providers";
 import { cn } from "@/lib/utils";
 
-const geist = Geist({subsets:['latin'],variable:'--font-sans'});
+
+
+//Define all the fonts that this app uses, over here! 
+//Defined and initialised as global variables (see globals.css) 
+//into the DOM once on component mount!
+
+const geist = Geist({ subsets: ['latin'], variable: '--font-sans' });
 
 const quantico = Quantico({
     weight: ["400", "700"],
     variable: "--font-quantico",
     subsets: ["latin"]
-})
+});
+
+const jetbrainsMono = JetBrains_Mono({
+    weight: ["400", "700"],
+    variable: "--font-jetbrains-mono",
+});
 
 export const metadata: Metadata = {
     title: "Create Next App",
@@ -23,7 +34,7 @@ export default function RootLayout({
     children: React.ReactNode;
 }>) {
     return (
-        <html lang="en" suppressHydrationWarning className={cn("h-full", "antialiased", quantico.variable, "font-sans", geist.variable)}>
+        <html lang="en" suppressHydrationWarning className={cn("h-full", "antialiased", quantico.variable, "font-sans", geist.variable, "font-jetbrains-mono", jetbrainsMono.variable)}>
             <body className="min-h-full flex flex-col">
                 <Providers>{children}</Providers>
             </body>

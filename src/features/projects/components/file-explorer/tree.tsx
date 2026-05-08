@@ -9,9 +9,10 @@ import LoadingRow from "./loading-row";
 import { cn } from "@/lib/utils";
 import { CreateInput } from "./create-input";
 import { RenameInput } from "./rename-input";
-import { handler } from "next/dist/build/templates/app-route";
+import { useEditor } from "@/features/editor/hooks/use-editor";
 
 
+//Tree.tsx represents the entire filesystem tree that we see!!!
 
 
 
@@ -34,6 +35,8 @@ export const Tree = ({
     const deleteFile = useDeleteFile();
     const createFile = useCreateFile();
     const createFolder = useCreateFolder();
+
+    const { openFile, closeTab, activeTabId } = useEditor(projectId);
 
     const handleCreate = (name: string) => {
         console.log(creating)
@@ -81,6 +84,10 @@ export const Tree = ({
     if (item.type === "file") {
         const fileName = item.name;
 
+        const isActive = activeTabId === item._id; //check whether the 
+        //current active tab we are looking at, in the code editor, 
+        //is === this current file id.
+
 
         if (isRenaming) {
             return (
@@ -97,11 +104,12 @@ export const Tree = ({
             <TreeItemWrapper
                 item={item}
                 level={level}
-                isActive={false}
-                onClick={() => { }}
-                onDoubleClick={() => { }}
+                isActive={isActive}
+                onClick={() => openFile(item._id, { pinned: false })}
+                onDoubleClick={() => openFile(item._id, { pinned: true })}
                 onRename={() => setIsRenaming(true)}
                 onDelete={() => {
+                    closeTab(item._id);
                     deleteFile({ id: item._id })
                 }}>
                 <FileIcon

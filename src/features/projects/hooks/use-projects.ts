@@ -50,10 +50,10 @@ export const useCreateProject = () => {
 
 
 //Create a project under this signed-in user (basically his/her account)
-export const useRenameProject = (projectId : Id<"projects">) => {
+export const useRenameProject = () => {
     return useMutation(api.projects.rename).withOptimisticUpdate(
         (localStore, args) => {
-            const existingProject = localStore.getQuery(api.projects.getById, {id:projectId});
+            const existingProject = localStore.getQuery(api.projects.getById, {id:args.id});
            
             //If project of project id exsits in convex db, then make sure we 
             //purport the changes to the local store first, which is the first layer for data 
@@ -61,7 +61,7 @@ export const useRenameProject = (projectId : Id<"projects">) => {
             //Not linked to main database.
             
             if (existingProject && existingProject !== null) {
-                localStore.setQuery(api.projects.getById, {id : projectId}, {
+                localStore.setQuery(api.projects.getById, {id : args.id}, {
                     ...existingProject,
                     name : args.name,
                     updatedAt : Date.now()
