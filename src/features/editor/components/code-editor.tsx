@@ -1,15 +1,18 @@
 import { useEffect, useMemo, useRef } from "react";
-import { basicSetup, EditorView} from "codemirror";
+import { basicSetup, EditorView } from "codemirror";
 import { keymap } from "@codemirror/view";
 import { vsCodeDark } from "@fsegurai/codemirror-theme-bundle";
 import { getLanguageExtension } from "../extensions/language-extensions";
 
 
-import {indentWithTab} from "@codemirror/commands";
+import { indentWithTab } from "@codemirror/commands";
 import { customTheme } from "../extensions/theme";
 import { minimap } from "../extensions/minimap";
 
-import {indentationMarkers} from "@replit/codemirror-indentation-markers";
+import { indentationMarkers } from "@replit/codemirror-indentation-markers";
+import { suggestion } from "../extensions/suggestion";
+import { quickEdit } from "../extensions/quick-edit";
+import { selectionTooltip } from "../extensions/selection-tooltip";
 
 
 /*
@@ -23,8 +26,8 @@ VScodeDark
 
 interface Props {
     fileName: string;
-    initialValue : string;
-    onChange: (value : string) =>void;
+    initialValue: string;
+    onChange: (value: string) => void;
 }
 
 export const CodeEditor = ({ fileName, initialValue, onChange }: Props) => {
@@ -52,11 +55,14 @@ export const CodeEditor = ({ fileName, initialValue, onChange }: Props) => {
                     customTheme,
                     basicSetup,
                     languageExtension,
+                    suggestion(fileName),
+                    quickEdit(),
+                    selectionTooltip(),
                     keymap.of([indentWithTab]),
                     minimap(),
                     indentationMarkers(),
-                    EditorView.updateListener.of((update)=>{
-                        if(update.docChanged){
+                    EditorView.updateListener.of((update) => {
+                        if (update.docChanged) {
                             //if a change in the current EditorView component contents has been detected (document)...
                             //Call the onChange function, which is defined in the parent component and passed here as a prop!
                             //Classic passing of prop information from child to parents...

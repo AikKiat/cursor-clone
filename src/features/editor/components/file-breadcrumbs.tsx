@@ -55,6 +55,6 @@ export default function FileBreadcrumbs({ projectId }: { projectId: Id<"projects
                     })}
                 </BreadcrumbList>
             </Breadcrumb>
-        </div> 
+        </div>
     )
 }

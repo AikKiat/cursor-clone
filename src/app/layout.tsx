@@ -3,8 +3,8 @@ import { Quantico, Geist, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { Providers } from "@/components/providers";
 import { cn } from "@/lib/utils";
-
-
+import { Toaster } from "sonner";
+import "allotment/dist/style.css";
 
 //Define all the fonts that this app uses, over here! 
 //Defined and initialised as global variables (see globals.css) 
@@ -36,7 +36,10 @@ export default function RootLayout({
     return (
         <html lang="en" suppressHydrationWarning className={cn("h-full", "antialiased", quantico.variable, "font-sans", geist.variable, "font-jetbrains-mono", jetbrainsMono.variable)}>
             <body className="min-h-full flex flex-col">
-                <Providers>{children}</Providers>
+                <Providers>
+                    <Toaster />
+                    {children}
+                </Providers>
             </body>
         </html >
     );
