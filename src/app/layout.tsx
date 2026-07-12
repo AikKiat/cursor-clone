@@ -10,7 +10,7 @@ import "allotment/dist/style.css";
 //Defined and initialised as global variables (see globals.css) 
 //into the DOM once on component mount!
 
-const geist = Geist({ subsets: ['latin'], variable: '--font-sans' });
+const geist = Geist({subsets:['latin'],variable:'--font-sans'});
 
 const quantico = Quantico({
     weight: ["400", "700"],
